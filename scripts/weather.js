@@ -11,7 +11,7 @@ Note: this is currently just a terminal application, but i might build an HTML
       "node weather [weatherKey] [geocodeKey] [city] [MM/DD]"
 */
 
-const request = require("request");
+// const request = require("request");
 
 // the base url that we will modify for weather requests
 const WEATHER = "https://api.darksky.net/forecast/";
@@ -178,7 +178,7 @@ function weather(weatherKey, geocodeKey, city, date) {
 // collect data from the forms, reset the forms, and pass the data to the
 // weather function
 function main() {
-  return;
+  console.log("in main");
 }
 
-main();
+document.getElementById("button").onclick = main;
