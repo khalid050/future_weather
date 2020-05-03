@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en-US"> <!-- this page is in English -->
+<!-- this page is in English -->
+<html lang="en-US">
   <head>
-    <meta charset="UTF-8" /> <!-- use UTF-8 encoding -->
-    <title></title> <!-- put the title of your site here -->
+    <!-- use UTF-8 encoding -->
+    <meta charset="UTF-8" />
+    <title>Weather Predictions</title>
     <link rel="stylesheet" type=text/css href="css/styles.css" />
     <!-- <link rel="icon" href="images/icon.png" /> -->
   </head>
-  <body></body> <!-- put the body of your site here -->
+  <body>
+    <div>
+      <form action="/prediciton.html">
+        <!-- a accept the weather api key -->
+        <label for="weatherKey">DarkSky API Key:</label><br />
+        <input type="text" id="weatherKey" name="weatherKey" /><br /><br />
+        <!-- a accept the geotag api key -->
+        <label for="geotagKey">MapQuest API Key:</label><br />
+        <input type="text" id="geotagKey" name="geotagKey" /><br /><br />
+        <!-- a accept a location name -->
+        <label for="location">Location:</label><br />
+        <input type="text" id="location" name="location" /><br /><br />
+        <!-- a accept a date in MM/DD format -->
+        <label for="date">Date:</label><br />
+        <input type="text" id="date" name="date" /><br /><br /><br />
+        <!-- a submit button -->
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
 </html>
