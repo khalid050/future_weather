@@ -11,8 +11,6 @@ Note: this is currently just a terminal application, but i might build an HTML
       "node weather [weatherKey] [geocodeKey] [city] [MM/DD]"
 */
 
-// const request = require("request");
-
 // the base url that we will modify for weather requests
 const WEATHER = "https://api.darksky.net/forecast/";
 
@@ -112,13 +110,24 @@ function getWeather(weatherURL, dateString, year, iterator, data, callback) {
   // add the date to the url
   let fetchURL = weatherURL + fetchDate;
 
-  request({ url: fetchURL, json: true }, function(err, res) {
-    stats = res.body.daily.data[0];
-    data.push(stats);
-    // console.log(weatherURL); // this is for debugging purposes
+  // fetch data from the darksky api
+  fetch(fetchURL)
+    // get the JSON from the response
+    .then(res => {
+      // return into the next then
+      return res.json();
+    })
+    // use the data
+    .then(res => {
+      stats = res.daily.data[0];
+      data.push(stats);
+      // console.log(weatherURL); // this is for debugging purposes
 
-    callback(weatherURL, dateString, year, iterator + 1, data, callback);
-  });
+      // callback(weatherURL, dateString, year, iterator + 1, data, callback);
+      console.log("fetched");
+    });
+
+  console.log("done");
 }
 
 // make a prediction about future weather based on past data
@@ -153,13 +162,21 @@ function getCoords(city, key, callback) {
     // disable the map and limit the number of responses to one
     '"},"options":{"thumbMaps":false,"maxResults":"1"}}';
 
-  request({ url: URL, json: true }, function(err, res) {
-    // parse the result to get just the JSON object containing the lat and
-    // long coordinates for the city
-    var coords = res.body.results[0].locations[0].displayLatLng;
-    // console.log(coords, "in function"); // prints coords
-    callback(coords); // "return" the coordinates to the next function
-  });
+  // fetch data from the mapquest api
+  fetch(URL)
+    // get the JSON from the response
+    .then(res => {
+      // return into the next then
+      return res.json();
+    })
+    // use the data
+    .then(res => {
+      // parse the result to get just the JSON object containing the lat and
+      // long coordinates for the city
+      var coords = res.results[0].locations[0].displayLatLng;
+      console.log(coords, "in function"); // prints coords
+      callback(coords); // "return" the coordinates to the next function
+    });
 }
 
 // use the data to make a prediction
@@ -169,7 +186,6 @@ function weather(weatherKey, geocodeKey, city, date) {
   // get the coordinates of the city as a JSON object with lat and lng
   getCoords(city, geocodeKey, function(coords) {
     // console.log(coords, "are the coords in main"); // debugging code
-
     // make a prediction
     getData(weatherKey, date, coords);
   });
@@ -179,6 +195,12 @@ function weather(weatherKey, geocodeKey, city, date) {
 // weather function
 function main() {
   console.log("in main");
+  weather(
+    "e3be245fcc8944e1a8032064119c0812",
+    "1AEU7AyupNhK0J1F8S9A1GA3wdN2AkmM",
+    "kyoto",
+    "5/3"
+  );
 }
 
 document.getElementById("button").onclick = main;
