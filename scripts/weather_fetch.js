@@ -110,24 +110,42 @@ function getWeather(weatherURL, dateString, year, iterator, data, callback) {
   // add the date to the url
   let fetchURL = weatherURL + fetchDate;
 
-  // fetch data from the darksky api
-  fetch(fetchURL)
-    // get the JSON from the response
-    .then(res => {
-      // return into the next then
-      return res.json();
-    })
-    // use the data
-    .then(res => {
-      stats = res.daily.data[0];
-      data.push(stats);
-      // console.log(weatherURL); // this is for debugging purposes
+  var request = new XMLHttpRequest();
+  request.addEventListener("load", function(res) {
+    stats = res.body.daily.data[0];
+    data.push(stats);
+    console.log(weatherURL); // this is for debugging purposes
 
-      // callback(weatherURL, dateString, year, iterator + 1, data, callback);
-      console.log("fetched");
-    });
+    // callback(weatherURL, dateString, year, iterator + 1, data, callback);
+  });
+  request.open("GET", fetchURL);
+  request.onload = function(res) {
+    stats = res.body.daily.data[0];
+    data.push(stats);
+    console.log(weatherURL); // this is for debugging purposes
 
-  console.log("done");
+    // callback(weatherURL, dateString, year, iterator + 1, data, callback);
+  };
+  request.send();
+  console.log(request);
+
+  // // fetch data from the darksky api
+  // fetch(fetchURL, {
+  //   credentials: "include"
+  // })
+  //   // get the JSON from the response
+  //   .then(res => res.json())
+  //   // use the data
+  //   .then(res => {
+  //     stats = res.daily.data[0];
+  //     data.push(stats);
+  //     // console.log(weatherURL); // this is for debugging purposes
+  //
+  //     // callback(weatherURL, dateString, year, iterator + 1, data, callback);
+  //     console.log("fetched");
+  //   });
+
+  // console.log("done");
 }
 
 // make a prediction about future weather based on past data
@@ -165,10 +183,7 @@ function getCoords(city, key, callback) {
   // fetch data from the mapquest api
   fetch(URL)
     // get the JSON from the response
-    .then(res => {
-      // return into the next then
-      return res.json();
-    })
+    .then(res => res.json())
     // use the data
     .then(res => {
       // parse the result to get just the JSON object containing the lat and
