@@ -165,21 +165,7 @@ function getCoords(city, key, callback) {
 // use the data to make a prediction
 
 // the main function that will handle all the processing
-function main() {
-  // get the weather api key from the comamnd line call to the program
-  weatherKey = process.argv[2];
-
-  // get the geocoding api key from the comamnd line call to the program
-  geocodeKey = process.argv[3];
-
-  // get the name of the city
-  const city = process.argv[4];
-
-  // get the date that the user would like from the command line
-  const date = process.argv[5];
-
-  var predicted;
-
+function weather(weatherKey, geocodeKey, city, date) {
   // get the coordinates of the city as a JSON object with lat and lng
   getCoords(city, geocodeKey, function(coords) {
     // console.log(coords, "are the coords in main"); // debugging code
@@ -187,6 +173,12 @@ function main() {
     // make a prediction
     getData(weatherKey, date, coords);
   });
+}
+
+// collect data from the forms, reset the forms, and pass the data to the
+// weather function
+function main() {
+  return;
 }
 
 main();
